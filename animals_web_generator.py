@@ -13,9 +13,11 @@ def create_animals_info_string(animals_info):
     """
     animals = ''
     for animal in animals_info:
+        animals += '<li class="cards__item">'
         for key, value in animal.items():
             if value is not None:
-                animals += f"{key}: {value}\n"
+                animals += f"{key}: {value}<br/>\n"
+        animals += '</li>'
     return animals
 
 def fetch_animals_info():
