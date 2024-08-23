@@ -19,8 +19,8 @@ def create_animals_info_string(animals_info):
             if key == "Name":
                 animals += f'<div class="card__title"> {value}</div>'
             elif value is not None and key != "Name":
-                other_items_except_name += f"<strong>{key}</strong>: {value}<br/>"
-        animals += f' <p class="card__text">{other_items_except_name}</p></li>'
+                other_items_except_name += f"<li>{key}: {value}</li>"
+        animals += f' <p class="card__text"> <ul>{other_items_except_name}</ul></p></li>'
     return animals
 
 def fetch_animals_info():
