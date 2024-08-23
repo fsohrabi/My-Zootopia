@@ -14,10 +14,13 @@ def create_animals_info_string(animals_info):
     animals = ''
     for animal in animals_info:
         animals += '<li class="cards__item">'
+        other_items_except_name = ''
         for key, value in animal.items():
-            if value is not None:
-                animals += f"{key}: {value}<br/>\n"
-        animals += '</li>'
+            if key == "Name":
+                animals += f'<div class="card__title"> {value}</div>'
+            elif value is not None and key != "Name":
+                other_items_except_name += f"<strong>{key}</strong>: {value}<br/>"
+        animals += f' <p class="card__text">{other_items_except_name}</p></li>'
     return animals
 
 def fetch_animals_info():
