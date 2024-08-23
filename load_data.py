@@ -11,6 +11,7 @@ def load_animals_data():
 
 
 def load_html_template_data():
-    """ Loads a HTML file """
+    """ Loads an HTML file """
     with open(FILE_HTML_PATH, "r") as handle:
         return handle.read()
+

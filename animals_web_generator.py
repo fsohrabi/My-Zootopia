@@ -1,13 +1,15 @@
 import load_data
 from write_data import write_data
 
-
 def create_animals_info_string(animals_info):
     """
-    Print the information of each animal from a list of dictionaries.
+    Create a formatted string containing the information of each animal.
 
     Args:
-        animals_info (list): A list of dictionaries containing animal information.
+        animals_info (list): A list of dictionaries with animal information.
+
+    Returns:
+        str: A formatted string with the details of each animal.
     """
     animals = ''
     for animal in animals_info:
@@ -16,14 +18,12 @@ def create_animals_info_string(animals_info):
                 animals += f"{key}: {value}\n"
     return animals
 
-
 def fetch_animals_info():
     """
-    Fetch animal data and format it into a new structure.
+    Fetch and format animal data into a list of dictionaries.
 
     Returns:
-        list: A list of dictionaries containing formatted animal information,
-              including 'Name', 'Diet', 'Location', and 'Type'.
+        list: A list of dictionaries with keys 'Name', 'Diet', 'Location', 'Type'.
     """
     animals_data = load_data.load_animals_data()
     new_animals_data_format = []
@@ -35,22 +35,25 @@ def fetch_animals_info():
         new_animals_data_format.append({'Name': name, 'Diet': diet, 'Location': location, 'Type': animal_type})
     return new_animals_data_format
 
-
 def create_animals_template():
+    """
+    Create an HTML template by embedding formatted animal information.
+
+    Returns:
+        str: An HTML string with animal information replacing a placeholder.
+    """
     template = load_data.load_html_template_data()
     animals_info = fetch_animals_info()
     animals_string = create_animals_info_string(animals_info)
-    template = template.replace('__REPLACE_ANIMALS_INFO__',animals_string)
+    template = template.replace('__REPLACE_ANIMALS_INFO__', animals_string)
     return template
-
 
 def main():
     """
-    Main function to fetch animal information and print it.
+    Main function to generate an HTML template with animal information and write it to a file.
     """
     template = create_animals_template()
     write_data(template)
-
 
 if __name__ == "__main__":
     main()
