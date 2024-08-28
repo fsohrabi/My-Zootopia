@@ -30,7 +30,8 @@ def fetch_animals_info():
     Returns:
         list: A list of dictionaries with keys 'Name', 'Diet', 'Location', 'Type'.
     """
-    animals_data = load_data.load_animals_data()
+    name = input('Enter a name of an animal: ')
+    animals_data = load_data.load_animals_data(name)
     if not animals_data:
         raise ValueError("Failed to fetch animal data from API")
     new_animals_data_format = []
@@ -55,6 +56,7 @@ def create_animals_template():
         animals_info = fetch_animals_info()  # This could raise an exception if data fetching fails
         animals_string = create_animals_info_string(animals_info)
         template = template.replace('__REPLACE_ANIMALS_INFO__', animals_string)
+        print('Website was successfully generated to the file animals.html.')
         return template
     except Exception as e:
         print(f"An error occurred: {e}")
