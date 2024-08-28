@@ -1,4 +1,5 @@
 import load_data
+from data_fetcher import fetch_data
 from write_data import write_data
 
 def create_animals_info_string(animals_info):
@@ -22,26 +23,6 @@ def create_animals_info_string(animals_info):
                 other_items_except_name += f"<li>{key}: {value}</li>"
         animals += f' <p class="card__text"> <ul>{other_items_except_name}</ul></p></li>'
     return animals
-
-def fetch_animals_info():
-    """
-    Fetch and format animal data into a list of dictionaries.
-
-    Returns:
-        list: A list of dictionaries with keys 'Name', 'Diet', 'Location', 'Type'.
-    """
-    name = input('Enter a name of an animal: ')
-    animals_data = load_data.load_animals_data(name)
-    if not animals_data:
-        raise ValueError("Failed to fetch animal data from API")
-    new_animals_data_format = []
-    for animal in animals_data:
-        name = animal.get('name', None)
-        diet = animal["characteristics"].get('diet', None)
-        location = animal["locations"][0]
-        animal_type = animal["characteristics"].get('type', None)
-        new_animals_data_format.append({'Name': name, 'Diet': diet, 'Location': location, 'Type': animal_type})
-    return new_animals_data_format
     
 
 def create_animals_template():
@@ -52,15 +33,16 @@ def create_animals_template():
         str: An HTML string with animal information replacing a placeholder.
     """
     try:
+        animal_name = input('Enter a name of an animal: ')
         template = load_data.load_html_template_data()
-        animals_info = fetch_animals_info()  # This could raise an exception if data fetching fails
+        animals_info = fetch_data(animal_name)  # This could raise an exception if data fetching fails
         animals_string = create_animals_info_string(animals_info)
         template = template.replace('__REPLACE_ANIMALS_INFO__', animals_string)
         print('Website was successfully generated to the file animals.html.')
         return template
     except Exception as e:
         print(f"An error occurred: {e}")
-        return f'<h2>The animal "{name}" doesn\'t exist.</h2>'
+        return f'<h2>The animal "{animal_name}" doesn\'t exist.</h2>'
 
 
 def main():
