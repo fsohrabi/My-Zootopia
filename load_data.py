@@ -1,13 +1,15 @@
-import json
+import requests
 
-FILE_JSON_PATH = "animals_data.json"
 FILE_HTML_PATH = "animals_template.html"
+API_KEY = 'VQ2Jo/JzVAsiUR5qYQYrWA==8if53JokPGdnG3bz'
 
-
-def load_animals_data():
-    """ Loads a JSON file """
-    with open(FILE_JSON_PATH, "r") as handle:
-        return json.load(handle)
+def load_animals_data(name ='Fox'):
+    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(name)
+    response = requests.get(api_url, headers={'X-Api-Key': API_KEY})
+    if response.status_code == requests.codes.ok:
+        return response.json()
+    else:
+        return False
 
 
 def load_html_template_data():

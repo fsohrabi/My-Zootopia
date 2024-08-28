@@ -31,6 +31,8 @@ def fetch_animals_info():
         list: A list of dictionaries with keys 'Name', 'Diet', 'Location', 'Type'.
     """
     animals_data = load_data.load_animals_data()
+    if not animals_data:
+        raise ValueError("Failed to fetch animal data from API")
     new_animals_data_format = []
     for animal in animals_data:
         name = animal.get('name', None)
@@ -39,6 +41,7 @@ def fetch_animals_info():
         animal_type = animal["characteristics"].get('type', None)
         new_animals_data_format.append({'Name': name, 'Diet': diet, 'Location': location, 'Type': animal_type})
     return new_animals_data_format
+    
 
 def create_animals_template():
     """
@@ -47,11 +50,16 @@ def create_animals_template():
     Returns:
         str: An HTML string with animal information replacing a placeholder.
     """
-    template = load_data.load_html_template_data()
-    animals_info = fetch_animals_info()
-    animals_string = create_animals_info_string(animals_info)
-    template = template.replace('__REPLACE_ANIMALS_INFO__', animals_string)
-    return template
+    try:
+        template = load_data.load_html_template_data()
+        animals_info = fetch_animals_info()  # This could raise an exception if data fetching fails
+        animals_string = create_animals_info_string(animals_info)
+        template = template.replace('__REPLACE_ANIMALS_INFO__', animals_string)
+        return template
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return "<p>Failed to load animal information. Please try again later.</p>"
+
 
 def main():
     """
