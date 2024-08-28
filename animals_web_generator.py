@@ -60,7 +60,7 @@ def create_animals_template():
         return template
     except Exception as e:
         print(f"An error occurred: {e}")
-        return "<p>Failed to load animal information. Please try again later.</p>"
+        return f'<h2>The animal "{name}" doesn\'t exist.</h2>'
 
 
 def main():
